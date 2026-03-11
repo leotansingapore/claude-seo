@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Claude SEO - Team Dashboard</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <nav class="sidebar">
+        <div class="sidebar-header">
+            <h1>Claude SEO</h1>
+            <span class="version">v1.3.2</span>
+        </div>
+        <ul class="nav-links">
+            <li><a href="#" class="nav-link active" data-view="analyze">New Analysis</a></li>
+            <li><a href="#" class="nav-link" data-view="history">History</a></li>
+            <li><a href="#" class="nav-link" data-view="schemas">Schema Templates</a></li>
+        </ul>
+        <div class="sidebar-footer">
+            <p>Team Dashboard</p>
+        </div>
+    </nav>
+
+    <main class="content">
+        <!-- Analyze View -->
+        <section id="view-analyze" class="view active">
+            <div class="page-header">
+                <h2>Run SEO Analysis</h2>
+                <p>Enter a URL to analyze. Results are shared with your team.</p>
+            </div>
+            <form id="analyze-form" class="analyze-form">
+                <div class="input-row">
+                    <input
+                        type="text"
+                        id="url-input"
+                        placeholder="https://example.com"
+                        required
+                        autocomplete="url"
+                    >
+                    <select id="analysis-type">
+                        <option value="full">Full Analysis</option>
+                        <option value="technical">Technical Only</option>
+                        <option value="content">Content Only</option>
+                        <option value="schema">Schema Only</option>
+                        <option value="images">Images Only</option>
+                    </select>
+                    <button type="submit" id="analyze-btn">Analyze</button>
+                </div>
+            </form>
+
+            <div id="results-area" class="results-area hidden">
+                <div id="loading" class="loading hidden">
+                    <div class="spinner"></div>
+                    <p>Analyzing page...</p>
+                </div>
+                <div id="results-content"></div>
+            </div>
+        </section>
+
+        <!-- History View -->
+        <section id="view-history" class="view hidden">
+            <div class="page-header">
+                <h2>Analysis History</h2>
+                <p>Recent analyses by your team.</p>
+            </div>
+            <div id="history-list" class="history-list"></div>
+        </section>
+
+        <!-- Schema Templates View -->
+        <section id="view-schemas" class="view hidden">
+            <div class="page-header">
+                <h2>Schema.org Templates</h2>
+                <p>Copy-paste JSON-LD templates for your pages.</p>
+            </div>
+            <div id="schema-list" class="schema-list"></div>
+        </section>
+    </main>
+
+    <script src="/static/js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,5 @@
+# Claude SEO Webapp — additional dependencies
+# Install on top of the base requirements.txt
+fastapi>=0.115.0,<1.0.0
+uvicorn[standard]>=0.34.0,<1.0.0
+jinja2>=3.1.0,<4.0.0
