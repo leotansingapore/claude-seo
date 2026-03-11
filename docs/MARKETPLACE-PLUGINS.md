@@ -3,7 +3,24 @@
 Claude SEO integrates with the **claude-code-skills** community marketplace,
 providing access to 173+ production-ready skills across 9 domains.
 
-## Quick Setup
+## Web App (Non-Technical Teams)
+
+Prefer a visual interface? Open the Plugin Marketplace web app:
+
+```bash
+# macOS / Linux
+./webapp/open.sh
+
+# Windows
+.\webapp\open.ps1
+
+# Or just double-click webapp/index.html
+```
+
+The web app lets you browse bundles, select what you need, and generates the
+install commands to copy-paste into Claude Code.
+
+## Quick Setup (CLI)
 
 ### Step 1: Register the Marketplace
 

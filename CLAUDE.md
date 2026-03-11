@@ -41,6 +41,10 @@ claude-seo/
     seo-sitemap.md                 # Sitemap quality gates
     seo-performance.md             # Core Web Vitals, page speed
     seo-visual.md                  # Screenshots, mobile rendering
+  webapp/                              # Plugin marketplace web app
+    index.html                       # Browser-based plugin selector
+    open.sh                          # macOS/Linux launcher
+    open.ps1                         # Windows launcher
   docs/                              # Extended documentation
     ARCHITECTURE.md                # System design overview
     COMMANDS.md                    # Full command reference
@@ -103,6 +107,8 @@ Claude SEO integrates with the **claude-code-skills** community marketplace
 /plugin install self-improving-agent@claude-code-skills
 /plugin install content-creator@claude-code-skills
 ```
+
+For non-technical team members, open the web app: `./webapp/open.sh` (or double-click `webapp/index.html`).
 
 See [docs/MARKETPLACE-PLUGINS.md](docs/MARKETPLACE-PLUGINS.md) for full details.
 

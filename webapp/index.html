@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Claude SEO — Plugin Marketplace</title>
+  <style>
+    :root {
+      --bg: #0f1117;
+      --surface: #1a1d27;
+      --surface-hover: #222632;
+      --border: #2a2e3a;
+      --text: #e4e4e7;
+      --text-muted: #9ca3af;
+      --accent: #6366f1;
+      --accent-hover: #818cf8;
+      --accent-bg: rgba(99,102,241,0.12);
+      --success: #22c55e;
+      --success-bg: rgba(34,197,94,0.12);
+      --warning: #f59e0b;
+      --radius: 12px;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem;
+    }
+
+    /* Header */
+    .header {
+      text-align: center;
+      margin-bottom: 2.5rem;
+    }
+    .header h1 {
+      font-size: 1.75rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+    .header h1 span { color: var(--accent); }
+    .header p {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+    }
+
+    /* Steps indicator */
+    .steps {
+      display: flex;
+      justify-content: center;
+      gap: 0.5rem;
+      margin-bottom: 2rem;
+    }
+    .step {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 1rem;
+      border-radius: 999px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      background: var(--surface);
+      color: var(--text-muted);
+      border: 1px solid var(--border);
+      transition: all 0.2s;
+    }
+    .step.active {
+      background: var(--accent-bg);
+      color: var(--accent);
+      border-color: var(--accent);
+    }
+    .step.done {
+      background: var(--success-bg);
+      color: var(--success);
+      border-color: var(--success);
+    }
+    .step-num {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75rem;
+      font-weight: 700;
+      background: var(--border);
+      color: var(--text-muted);
+    }
+    .step.active .step-num { background: var(--accent); color: #fff; }
+    .step.done .step-num { background: var(--success); color: #fff; }
+
+    /* Sections */
+    .section {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+    .section-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 0.25rem;
+    }
+    .section-desc {
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      margin-bottom: 1.25rem;
+    }
+
+    /* Category filters */
+    .filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 1.25rem;
+    }
+    .filter-btn {
+      padding: 0.35rem 0.85rem;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--text-muted);
+      font-size: 0.8rem;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .filter-btn:hover { border-color: var(--accent); color: var(--text); }
+    .filter-btn.active {
+      background: var(--accent-bg);
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    /* Plugin cards */
+    .plugins-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 0.75rem;
+    }
+    .plugin-card {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1rem 1.25rem;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.15s;
+      user-select: none;
+    }
+    .plugin-card:hover {
+      border-color: var(--accent);
+      background: var(--surface-hover);
+    }
+    .plugin-card.selected {
+      border-color: var(--accent);
+      background: var(--accent-bg);
+    }
+
+    .plugin-check {
+      width: 22px;
+      height: 22px;
+      border-radius: 6px;
+      border: 2px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: all 0.15s;
+    }
+    .plugin-card.selected .plugin-check {
+      background: var(--accent);
+      border-color: var(--accent);
+    }
+    .plugin-check svg { display: none; }
+    .plugin-card.selected .plugin-check svg { display: block; }
+
+    .plugin-info { flex: 1; min-width: 0; }
+    .plugin-name {
+      font-weight: 600;
+      font-size: 0.95rem;
+      margin-bottom: 0.15rem;
+    }
+    .plugin-desc {
+      color: var(--text-muted);
+      font-size: 0.8rem;
+    }
+    .plugin-badge {
+      padding: 0.2rem 0.6rem;
+      border-radius: 999px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      background: var(--accent-bg);
+      color: var(--accent);
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .plugin-badge.individual {
+      background: rgba(245,158,11,0.12);
+      color: var(--warning);
+    }
+
+    /* Select all / none */
+    .select-controls {
+      display: flex;
+      gap: 0.75rem;
+      margin-bottom: 1rem;
+    }
+    .select-btn {
+      background: none;
+      border: none;
+      color: var(--accent);
+      font-size: 0.8rem;
+      cursor: pointer;
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+    .select-btn:hover { color: var(--accent-hover); }
+
+    /* Summary */
+    .summary {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .summary-stats {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+    .summary-stats strong { color: var(--text); }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.65rem 1.5rem;
+      border-radius: 10px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .btn-primary {
+      background: var(--accent);
+      color: #fff;
+    }
+    .btn-primary:hover { background: var(--accent-hover); }
+    .btn-primary:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+    .btn-secondary {
+      background: var(--surface);
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+    .btn-secondary:hover { border-color: var(--accent); }
+
+    /* Output panel */
+    .output-panel {
+      display: none;
+      margin-top: 1.5rem;
+    }
+    .output-panel.visible { display: block; }
+
+    .output-block {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.25rem;
+      margin-bottom: 1rem;
+    }
+    .output-label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+      margin-bottom: 0.75rem;
+    }
+    .output-code {
+      font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+      font-size: 0.82rem;
+      line-height: 1.8;
+      color: var(--text);
+      white-space: pre-wrap;
+      word-break: break-all;
+    }
+
+    .copy-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.4rem 0.85rem;
+      border-radius: 8px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      font-size: 0.78rem;
+      cursor: pointer;
+      transition: all 0.15s;
+      float: right;
+      margin-top: -0.25rem;
+    }
+    .copy-btn:hover { border-color: var(--accent); color: var(--accent); }
+    .copy-btn.copied { color: var(--success); border-color: var(--success); }
+
+    /* Script download */
+    .download-section {
+      text-align: center;
+      padding: 1.25rem;
+      background: var(--accent-bg);
+      border: 1px dashed var(--accent);
+      border-radius: 10px;
+      margin-top: 1rem;
+    }
+    .download-section p {
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      margin-bottom: 0.75rem;
+    }
+
+    /* Footer */
+    .footer {
+      text-align: center;
+      margin-top: 2rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border);
+      color: var(--text-muted);
+      font-size: 0.8rem;
+    }
+    .footer a { color: var(--accent); text-decoration: none; }
+    .footer a:hover { text-decoration: underline; }
+
+    /* Responsive */
+    @media (max-width: 640px) {
+      .container { padding: 1rem; }
+      .steps { flex-direction: column; align-items: center; }
+      .summary { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <div class="header">
+      <h1><span>Claude SEO</span> — Plugin Marketplace</h1>
+      <p>Select the skill bundles your team needs, then copy the install commands.</p>
+    </div>
+
+    <!-- Steps -->
+    <div class="steps">
+      <div class="step active" id="step1">
+        <span class="step-num">1</span> Select Plugins
+      </div>
+      <div class="step" id="step2">
+        <span class="step-num">2</span> Get Commands
+      </div>
+      <div class="step" id="step3">
+        <span class="step-num">3</span> Install
+      </div>
+    </div>
+
+    <!-- Selection section -->
+    <div class="section">
+      <div class="section-title">Choose Skill Bundles</div>
+      <div class="section-desc">Click to select the bundles your team needs. Each bundle installs multiple related skills.</div>
+
+      <div class="filters">
+        <button class="filter-btn active" data-filter="all">All</button>
+        <button class="filter-btn" data-filter="engineering">Engineering</button>
+        <button class="filter-btn" data-filter="product">Product</button>
+        <button class="filter-btn" data-filter="marketing">Marketing</button>
+        <button class="filter-btn" data-filter="management">Management</button>
+        <button class="filter-btn" data-filter="executive">Executive</button>
+        <button class="filter-btn" data-filter="compliance">Compliance</button>
+        <button class="filter-btn" data-filter="business">Business</button>
+        <button class="filter-btn" data-filter="individual">Individual</button>
+      </div>
+
+      <div class="select-controls">
+        <button class="select-btn" id="selectAll">Select all visible</button>
+        <button class="select-btn" id="selectNone">Clear selection</button>
+      </div>
+
+      <div class="plugins-grid" id="pluginsGrid"></div>
+    </div>
+
+    <!-- Summary & generate -->
+    <div class="section">
+      <div class="summary">
+        <div class="summary-stats">
+          <strong id="selectedCount">0</strong> bundles selected
+          &mdash;
+          <strong id="skillCount">0</strong> skills total
+        </div>
+        <button class="btn btn-primary" id="generateBtn" disabled>
+          Generate Install Commands
+        </button>
+      </div>
+    </div>
+
+    <!-- Output panel -->
+    <div class="output-panel" id="outputPanel">
+      <div class="section">
+        <div class="section-title">Installation Commands</div>
+        <div class="section-desc">Copy and paste these into Claude Code. Run them one at a time or all at once.</div>
+
+        <div class="output-block">
+          <div class="output-label">
+            Step 1 — Register Marketplace (one time only)
+            <button class="copy-btn" data-target="cmdStep1">Copy</button>
+          </div>
+          <div class="output-code" id="cmdStep1">/plugin marketplace add alirezarezvani/claude-skills</div>
+        </div>
+
+        <div class="output-block">
+          <div class="output-label">
+            Step 2 — Install Selected Plugins
+            <button class="copy-btn" data-target="cmdStep2">Copy</button>
+          </div>
+          <div class="output-code" id="cmdStep2"></div>
+        </div>
+
+        <div class="download-section">
+          <p>Prefer a one-click install? Download a script your team can run.</p>
+          <button class="btn btn-secondary" id="downloadBtn">Download install-plugins.sh</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+      Claude SEO v1.4.0 &mdash;
+      Marketplace: <a href="https://github.com/alirezarezvani/claude-skills" target="_blank">alirezarezvani/claude-skills</a>
+      &mdash;
+      <a href="https://github.com/AgriciDaniel/claude-seo" target="_blank">GitHub</a>
+    </div>
+  </div>
+
+  <script>
+    // Plugin data
+    const plugins = [
+      { id: 'engineering-skills', name: 'Engineering Core', desc: '24 skills — architecture, DevOps, QA, AI/ML', skills: 24, cat: 'engineering', type: 'bundle' },
+      { id: 'engineering-advanced-skills', name: 'Engineering POWERFUL', desc: '25 skills — agent design, RAG architecture, DB optimization', skills: 25, cat: 'engineering', type: 'bundle' },
+      { id: 'product-skills', name: 'Product Team', desc: '8 skills — product management, UX research, UI design', skills: 8, cat: 'product', type: 'bundle' },
+      { id: 'marketing-skills', name: 'Marketing', desc: '43 skills — content, SEO, CRO, growth, sales (7 pods)', skills: 43, cat: 'marketing', type: 'bundle' },
+      { id: 'ra-qm-skills', name: 'Regulatory & Quality', desc: '12 skills — ISO standards, FDA, GDPR compliance', skills: 12, cat: 'compliance', type: 'bundle' },
+      { id: 'pm-skills', name: 'Project Management', desc: '6 skills — Jira, Confluence, Agile workflows', skills: 6, cat: 'management', type: 'bundle' },
+      { id: 'c-level-skills', name: 'C-Level Advisory', desc: '28 skills — full C-suite executive roles + orchestration', skills: 28, cat: 'executive', type: 'bundle' },
+      { id: 'business-growth-skills', name: 'Business & Growth', desc: '4 skills — sales, customer success, revenue ops', skills: 4, cat: 'business', type: 'bundle' },
+      { id: 'finance-skills', name: 'Finance', desc: '2 skills — financial analyst, SaaS metrics', skills: 2, cat: 'business', type: 'bundle' },
+      { id: 'skill-security-auditor', name: 'Security Auditor', desc: 'Security scanning and vulnerability detection', skills: 1, cat: 'individual', type: 'individual' },
+      { id: 'playwright-pro', name: 'Playwright Pro', desc: 'Playwright testing toolkit for browser automation', skills: 1, cat: 'individual', type: 'individual' },
+      { id: 'self-improving-agent', name: 'Self-Improving Agent', desc: 'Auto-memory curation and self-optimization', skills: 1, cat: 'individual', type: 'individual' },
+      { id: 'content-creator', name: 'Content Creator', desc: 'Content creation and writing assistance', skills: 1, cat: 'individual', type: 'individual' },
+    ];
+
+    const selected = new Set();
+    let currentFilter = 'all';
+
+    // Render plugins
+    function render() {
+      const grid = document.getElementById('pluginsGrid');
+      const visible = plugins.filter(p => currentFilter === 'all' || p.cat === currentFilter);
+
+      grid.innerHTML = visible.map(p => `
+        <div class="plugin-card ${selected.has(p.id) ? 'selected' : ''}" data-id="${p.id}">
+          <div class="plugin-check">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+              <path d="M3 7.5L5.5 10L11 4" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <div class="plugin-info">
+            <div class="plugin-name">${p.name}</div>
+            <div class="plugin-desc">${p.desc}</div>
+          </div>
+          <div class="plugin-badge ${p.type === 'individual' ? 'individual' : ''}">${p.skills} skill${p.skills > 1 ? 's' : ''}</div>
+        </div>
+      `).join('');
+
+      // Update counts
+      const total = [...selected].reduce((sum, id) => {
+        const p = plugins.find(x => x.id === id);
+        return sum + (p ? p.skills : 0);
+      }, 0);
+      document.getElementById('selectedCount').textContent = selected.size;
+      document.getElementById('skillCount').textContent = total;
+      document.getElementById('generateBtn').disabled = selected.size === 0;
+
+      // Update steps
+      document.getElementById('step1').className = selected.size > 0 ? 'step done' : 'step active';
+      document.getElementById('step2').className = selected.size > 0 ? 'step active' : 'step';
+    }
+
+    // Toggle selection
+    document.getElementById('pluginsGrid').addEventListener('click', e => {
+      const card = e.target.closest('.plugin-card');
+      if (!card) return;
+      const id = card.dataset.id;
+      if (selected.has(id)) selected.delete(id); else selected.add(id);
+      render();
+    });
+
+    // Filter buttons
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        currentFilter = btn.dataset.filter;
+        render();
+      });
+    });
+
+    // Select all / none
+    document.getElementById('selectAll').addEventListener('click', () => {
+      const visible = plugins.filter(p => currentFilter === 'all' || p.cat === currentFilter);
+      visible.forEach(p => selected.add(p.id));
+      render();
+    });
+    document.getElementById('selectNone').addEventListener('click', () => {
+      selected.clear();
+      render();
+      document.getElementById('outputPanel').classList.remove('visible');
+    });
+
+    // Generate commands
+    document.getElementById('generateBtn').addEventListener('click', () => {
+      const cmds = [...selected].map(id => `/plugin install ${id}@claude-code-skills`).join('\n');
+      document.getElementById('cmdStep2').textContent = cmds;
+      document.getElementById('outputPanel').classList.add('visible');
+
+      document.getElementById('step1').className = 'step done';
+      document.getElementById('step2').className = 'step done';
+      document.getElementById('step3').className = 'step active';
+
+      document.getElementById('outputPanel').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+
+    // Copy buttons
+    document.querySelectorAll('.copy-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const target = document.getElementById(btn.dataset.target);
+        navigator.clipboard.writeText(target.textContent).then(() => {
+          btn.classList.add('copied');
+          btn.textContent = 'Copied!';
+          setTimeout(() => {
+            btn.classList.remove('copied');
+            btn.textContent = 'Copy';
+          }, 2000);
+        });
+      });
+    });
+
+    // Download script
+    document.getElementById('downloadBtn').addEventListener('click', () => {
+      const cmds = [...selected].map(id => `/plugin install ${id}@claude-code-skills`);
+      const script = `#!/usr/bin/env bash
+# Claude SEO — Marketplace Plugin Installer
+# Generated by Claude SEO Plugin Marketplace Web App
+# Run these commands inside Claude Code (not in a regular terminal)
+#
+# Usage:
+#   1. Open Claude Code:  claude
+#   2. Paste these commands one at a time:
+
+echo "Step 1: Register the marketplace"
+echo "Run this command in Claude Code:"
+echo ""
+echo "  /plugin marketplace add alirezarezvani/claude-skills"
+echo ""
+echo "Step 2: Install selected plugins"
+echo "Run these commands in Claude Code:"
+echo ""
+${cmds.map(c => `echo "  ${c}"`).join('\n')}
+echo ""
+echo "Done! Your selected plugins are ready to use."
+`;
+      const blob = new Blob([script], { type: 'text/plain' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'install-plugins.sh';
+      a.click();
+      URL.revokeObjectURL(a.href);
+    });
+
+    // Initial render
+    render();
+  </script>
+</body>
+</html>
