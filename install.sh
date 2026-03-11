@@ -108,6 +108,11 @@ main() {
         echo "  ⚠  Playwright install failed. Visual analysis will use WebFetch fallback."
     fi
 
+    # Copy marketplace plugin config
+    if [ -f "${TEMP_DIR}/claude-seo/.claude-plugin/marketplace-plugins.json" ]; then
+        cp "${TEMP_DIR}/claude-seo/.claude-plugin/marketplace-plugins.json" "${SKILL_DIR}/marketplace-plugins.json" 2>/dev/null || true
+    fi
+
     echo ""
     echo "✓ Claude SEO installed successfully!"
     echo ""
@@ -117,6 +122,19 @@ main() {
     echo ""
     echo "Python deps location: ${SKILL_DIR}/requirements.txt"
     echo "To uninstall: curl -fsSL ${REPO_URL}/raw/main/uninstall.sh | bash"
+    echo ""
+    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+    echo "  Optional: Marketplace Plugins (173+ skills)"
+    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+    echo ""
+    echo "  Register the marketplace:"
+    echo "    /plugin marketplace add alirezarezvani/claude-skills"
+    echo ""
+    echo "  Install skill bundles:"
+    echo "    /plugin install marketing-skills@claude-code-skills"
+    echo "    /plugin install engineering-skills@claude-code-skills"
+    echo ""
+    echo "  See docs/MARKETPLACE-PLUGINS.md for all bundles."
 }
 
 main "$@"

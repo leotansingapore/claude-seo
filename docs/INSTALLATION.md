@@ -110,6 +110,23 @@ rm -rf ~/.claude/skills/seo-technical
 rm -f ~/.claude/agents/seo-*.md
 ```
 
+## Marketplace Plugins (Optional)
+
+Claude SEO integrates with the **claude-code-skills** community marketplace
+(173+ skills across 9 domains). After installing Claude SEO:
+
+```bash
+# Register the marketplace
+/plugin marketplace add alirezarezvani/claude-skills
+
+# Install skill bundles by domain
+/plugin install marketing-skills@claude-code-skills    # 43 marketing skills
+/plugin install engineering-skills@claude-code-skills   # 24 engineering skills
+```
+
+See [MARKETPLACE-PLUGINS.md](MARKETPLACE-PLUGINS.md) for the full list of bundles
+and recommended combinations.
+
 ## Upgrading
 
 To upgrade to the latest version:

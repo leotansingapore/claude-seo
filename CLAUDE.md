@@ -13,7 +13,8 @@ schema markup, image optimization, sitemap architecture, and AI search optimizat
 ```
 claude-seo/
   CLAUDE.md                          # Project instructions (this file)
-  .claude-plugin/plugin.json         # Plugin manifest (v1.3.2)
+  .claude-plugin/plugin.json         # Plugin manifest (v1.4.0)
+  .claude-plugin/marketplace-plugins.json  # Marketplace plugin catalog
   seo/                               # Main orchestrator skill
     SKILL.md                         # Entry point, routing table, core rules
     references/                      # On-demand knowledge files
@@ -44,6 +45,7 @@ claude-seo/
     ARCHITECTURE.md                # System design overview
     COMMANDS.md                    # Full command reference
     INSTALLATION.md                # Install guide
+    MARKETPLACE-PLUGINS.md         # Marketplace plugin setup
     MCP-INTEGRATION.md            # DataForSEO MCP setup
     TROUBLESHOOTING.md            # Common issues
 ```
@@ -75,9 +77,39 @@ claude-seo/
 - Python dependencies install into `~/.claude/skills/seo/.venv/`
 - Test with `python -m pytest tests/` after changes (if applicable)
 
+## Marketplace Plugins
+
+Claude SEO integrates with the **claude-code-skills** community marketplace
+(173+ skills, 9 domains). Register and install:
+
+```bash
+# Register marketplace
+/plugin marketplace add alirezarezvani/claude-skills
+
+# Install bundles by domain
+/plugin install engineering-skills@claude-code-skills          # 24 core engineering
+/plugin install engineering-advanced-skills@claude-code-skills  # 25 POWERFUL-tier
+/plugin install product-skills@claude-code-skills               # 8 product skills
+/plugin install marketing-skills@claude-code-skills             # 43 marketing skills
+/plugin install ra-qm-skills@claude-code-skills                 # 12 regulatory/quality
+/plugin install pm-skills@claude-code-skills                    # 6 project management
+/plugin install c-level-skills@claude-code-skills               # 28 C-level advisory
+/plugin install business-growth-skills@claude-code-skills       # 4 business & growth
+/plugin install finance-skills@claude-code-skills               # 2 finance
+
+# Individual skills
+/plugin install skill-security-auditor@claude-code-skills
+/plugin install playwright-pro@claude-code-skills
+/plugin install self-improving-agent@claude-code-skills
+/plugin install content-creator@claude-code-skills
+```
+
+See [docs/MARKETPLACE-PLUGINS.md](docs/MARKETPLACE-PLUGINS.md) for full details.
+
 ## Key Principles
 
 1. **Progressive Disclosure**: Metadata always loaded, instructions on activation, resources on demand
 2. **Industry Detection**: Auto-detect SaaS, e-commerce, local, publisher, agency
 3. **Parallel Execution**: Full audits spawn 6 subagents simultaneously
 4. **Extension System**: DataForSEO MCP integration for live data
+5. **Marketplace Integration**: 173+ community skills via claude-code-skills marketplace

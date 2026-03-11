@@ -1,6 +1,6 @@
 {
   "name": "claude-seo",
-  "version": "1.3.2",
+  "version": "1.4.0",
   "description": "Comprehensive SEO analysis skill for Claude Code. Covers technical SEO, content quality (E-E-A-T), schema markup, image optimization, sitemap architecture, AI search optimization (GEO), and strategic planning across all industries.",
   "author": "AgriciDaniel",
   "license": "MIT",
@@ -28,5 +28,92 @@
     "agents/seo-sitemap.md",
     "agents/seo-performance.md",
     "agents/seo-visual.md"
+  ],
+  "marketplaces": [
+    {
+      "name": "claude-code-skills",
+      "source": "alirezarezvani/claude-skills",
+      "description": "Community marketplace with 173+ production-ready skills across 9 domains"
+    }
+  ],
+  "recommended_plugins": [
+    {
+      "name": "engineering-skills",
+      "marketplace": "claude-code-skills",
+      "description": "24 core engineering skills (architecture, DevOps, QA, AI/ML)",
+      "required": false
+    },
+    {
+      "name": "engineering-advanced-skills",
+      "marketplace": "claude-code-skills",
+      "description": "25 POWERFUL-tier skills (agent design, RAG architecture, DB optimization)",
+      "required": false
+    },
+    {
+      "name": "product-skills",
+      "marketplace": "claude-code-skills",
+      "description": "8 product skills (product management, UX research, UI design)",
+      "required": false
+    },
+    {
+      "name": "marketing-skills",
+      "marketplace": "claude-code-skills",
+      "description": "43 marketing skills (content, SEO, CRO, growth, sales)",
+      "required": false
+    },
+    {
+      "name": "ra-qm-skills",
+      "marketplace": "claude-code-skills",
+      "description": "12 regulatory/quality management skills (ISO, FDA, GDPR)",
+      "required": false
+    },
+    {
+      "name": "pm-skills",
+      "marketplace": "claude-code-skills",
+      "description": "6 project management skills (Jira, Confluence, Agile)",
+      "required": false
+    },
+    {
+      "name": "c-level-skills",
+      "marketplace": "claude-code-skills",
+      "description": "28 C-level advisory skills (full C-suite executive roles)",
+      "required": false
+    },
+    {
+      "name": "business-growth-skills",
+      "marketplace": "claude-code-skills",
+      "description": "4 business & growth skills (sales, customer success, revenue ops)",
+      "required": false
+    },
+    {
+      "name": "finance-skills",
+      "marketplace": "claude-code-skills",
+      "description": "2 finance skills (analyst + SaaS metrics)",
+      "required": false
+    },
+    {
+      "name": "skill-security-auditor",
+      "marketplace": "claude-code-skills",
+      "description": "Security scanner skill",
+      "required": false
+    },
+    {
+      "name": "playwright-pro",
+      "marketplace": "claude-code-skills",
+      "description": "Playwright testing toolkit",
+      "required": false
+    },
+    {
+      "name": "self-improving-agent",
+      "marketplace": "claude-code-skills",
+      "description": "Auto-memory curation skill",
+      "required": false
+    },
+    {
+      "name": "content-creator",
+      "marketplace": "claude-code-skills",
+      "description": "Content creation skill",
+      "required": false
+    }
   ]
 }

@@ -1,0 +1,81 @@
+{
+  "marketplace": {
+    "name": "claude-code-skills",
+    "source": "alirezarezvani/claude-skills",
+    "description": "Community marketplace with 173+ production-ready skills across 9 domains"
+  },
+  "bundles": {
+    "engineering-skills": {
+      "description": "24 core engineering skills (architecture, DevOps, QA, AI/ML)",
+      "install_command": "/plugin install engineering-skills@claude-code-skills",
+      "skill_count": 24,
+      "category": "engineering"
+    },
+    "engineering-advanced-skills": {
+      "description": "25 POWERFUL-tier engineering skills (agent design, RAG architecture, DB optimization)",
+      "install_command": "/plugin install engineering-advanced-skills@claude-code-skills",
+      "skill_count": 25,
+      "category": "engineering"
+    },
+    "product-skills": {
+      "description": "8 product skills (product management, UX research, UI design)",
+      "install_command": "/plugin install product-skills@claude-code-skills",
+      "skill_count": 8,
+      "category": "product"
+    },
+    "marketing-skills": {
+      "description": "43 marketing skills (content, SEO, CRO, growth, sales — 7 pods)",
+      "install_command": "/plugin install marketing-skills@claude-code-skills",
+      "skill_count": 43,
+      "category": "marketing"
+    },
+    "ra-qm-skills": {
+      "description": "12 regulatory/quality management skills (ISO, FDA, GDPR)",
+      "install_command": "/plugin install ra-qm-skills@claude-code-skills",
+      "skill_count": 12,
+      "category": "compliance"
+    },
+    "pm-skills": {
+      "description": "6 project management skills (Jira, Confluence, Agile)",
+      "install_command": "/plugin install pm-skills@claude-code-skills",
+      "skill_count": 6,
+      "category": "management"
+    },
+    "c-level-skills": {
+      "description": "28 C-level advisory skills (full C-suite executive roles + orchestration)",
+      "install_command": "/plugin install c-level-skills@claude-code-skills",
+      "skill_count": 28,
+      "category": "executive"
+    },
+    "business-growth-skills": {
+      "description": "4 business & growth skills (sales, customer success, revenue ops)",
+      "install_command": "/plugin install business-growth-skills@claude-code-skills",
+      "skill_count": 4,
+      "category": "business"
+    },
+    "finance-skills": {
+      "description": "2 finance skills (analyst + SaaS metrics)",
+      "install_command": "/plugin install finance-skills@claude-code-skills",
+      "skill_count": 2,
+      "category": "finance"
+    }
+  },
+  "individual_skills": {
+    "skill-security-auditor": {
+      "description": "Security scanner",
+      "install_command": "/plugin install skill-security-auditor@claude-code-skills"
+    },
+    "playwright-pro": {
+      "description": "Playwright testing toolkit",
+      "install_command": "/plugin install playwright-pro@claude-code-skills"
+    },
+    "self-improving-agent": {
+      "description": "Auto-memory curation",
+      "install_command": "/plugin install self-improving-agent@claude-code-skills"
+    },
+    "content-creator": {
+      "description": "Content creation skill",
+      "install_command": "/plugin install content-creator@claude-code-skills"
+    }
+  }
+}
